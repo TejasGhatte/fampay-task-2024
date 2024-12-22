@@ -16,6 +16,7 @@ type Config struct {
 	REDIS_PORT           string       `mapstructure:"REDIS_PORT"`
 	REDIS_USER           string       `mapstructure:"REDIS_USER"`
 	REDIS_PASSWORD       string       `mapstructure:"REDIS_PASSWORD"`
+	API_KEY              string       `mapstructure:"API_KEY"`
 }
 
 var CONFIG Config

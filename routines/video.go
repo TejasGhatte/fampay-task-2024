@@ -9,7 +9,6 @@ import (
 
 	"github.com/TejasGhatte/fampay-task-2024/initializers"
 	"github.com/TejasGhatte/fampay-task-2024/models"
-	"github.com/gofiber/fiber/v2"
 	"google.golang.org/api/option"
 	"google.golang.org/api/youtube/v3"
 )
@@ -21,7 +20,7 @@ var (
 
 const developerKey = "API_KEY"
 
-func FetchVideos(c *fiber.Ctx) error {
+func FetchVideos(){
 	flag.Parse()
 
 	// Initialize YouTube service
@@ -37,8 +36,6 @@ func FetchVideos(c *fiber.Ctx) error {
 		log.Printf("Error fetching and storing videos: %v", err)
 	}
 	fmt.Println("Videos fetched and stored successfully")
-
-	return nil
 }
 
 func fetchAndStoreVideos(service *youtube.Service) error {
@@ -53,8 +50,6 @@ func fetchAndStoreVideos(service *youtube.Service) error {
 	if err != nil {
 		return fmt.Errorf("error calling Search.List: %v", err)
 	}
-
-	fmt.Println(response)
 
 	for _, item := range response.Items {
 		publishedAt, err := time.Parse(time.RFC3339, item.Snippet.PublishedAt)
