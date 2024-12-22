@@ -4,6 +4,8 @@ import (
 	"log"
 	"fmt"
 
+	"github.com/TejasGhatte/fampay-task-2024/models"
+
 )
 
 func DBMigrate() {
@@ -12,6 +14,7 @@ func DBMigrate() {
 	}
 
     err := DB.AutoMigrate(
+		&models.Video{},
 	)
 
 	if err != nil {
