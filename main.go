@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/TejasGhatte/fampay-task-2024/initializers"
 	"github.com/TejasGhatte/fampay-task-2024/routers"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func init() {
