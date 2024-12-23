@@ -20,11 +20,7 @@ var (
 	maxResults = flag.Int64("max-results", 25, "Max YouTube results")
 )
 
-var apiKeys = []string{
-    "API_KEY_1",
-    "API_KEY_2",
-    "API_KEY_3",
-}
+var apiKeys = initializers.LoadAPIKeys()
 var (
     currentKeyIndex = 0
     keyMutex        sync.Mutex
