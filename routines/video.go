@@ -56,11 +56,12 @@ func fetchAndStoreVideos(service *youtube.Service) error {
 		if err != nil {
 			return fmt.Errorf("error parsing publishedAt: %v", err)
 		}
+
 		video := models.Video{
 			Title : item.Snippet.Title,
 			Description :item.Snippet.Description,
 			PublishedAt : publishedAt,
-			ThumbnailURLs : item.Snippet.Thumbnails.Default.Url,
+			ThumbnailURLs : []string{item.Snippet.Thumbnails.Default.Url},
 		}
 		fmt.Println(video.Title)
 
