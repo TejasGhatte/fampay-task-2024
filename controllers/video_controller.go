@@ -1,47 +1,31 @@
 package controllers
 
 import (
-	"log"
-	"strconv"
+	"time"
 
 	"github.com/TejasGhatte/fampay-task-2024/initializers"
 	"github.com/TejasGhatte/fampay-task-2024/models"
+	"github.com/TejasGhatte/fampay-task-2024/utils"
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 )
 
 func GetVideos(c *fiber.Ctx) error {
-	paginatedDB := Paginator(c)(initializers.DB)
+	paginatedDB := utils.CursorPaginateVideos(c)(initializers.DB)
 
 	var videos []models.Video
 	if err := paginatedDB.Order("published_at DESC").Find(&videos).Error; err != nil {
 		return &fiber.Error{Code: fiber.StatusInternalServerError, Message: "Failed to get videos"}
 	}
+
+	var nextCursor string
+	if len(videos) > 0 {
+		nextCursor = videos[len(videos)-1].PublishedAt.Format(time.RFC3339)
+	}
+
 	return c.Status(200).JSON(fiber.Map{
 		"status": "success",
 		"message": "Videos fetched successfully",
-		"data":   videos,
+		"videos":   videos,
+		"next_cursor": nextCursor,
 	})
-}
-
-func Paginator(c *fiber.Ctx) func(db *gorm.DB) *gorm.DB {
-	return func(db *gorm.DB) *gorm.DB {
-		pageStr := c.Query("page", "1")
-		limitStr := c.Query("limit", "10")
-
-		page, err := strconv.Atoi(pageStr)
-		if err != nil {
-			log.Println("Failed to Paginate due to integer conversion.")
-			return db
-		}
-
-		limit, err := strconv.Atoi(limitStr)
-		if err != nil {
-			log.Println("Failed to Paginate due to integer conversion.")
-			return db
-		}
-
-		offset := (page - 1) * limit
-		return db.Offset(offset).Limit(limit)
-	}
 }
